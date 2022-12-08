@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+    
+        
+	</script>
+	<style>
+	header {
+		border: 1px solid;
+		text-align: center;
+	}
+
+	.parent {
+		display: flex;
+		flex-direction: column;
+		background-color: #f3f3f3;
+	}
+
+	.page1 {
+		display: flex;
+		justify-content: center;
+	}
+
+	.mainform {
+		border: 1px solid black;
+		border-radius: 10px;
+		padding: 50px;
+		font-family: system-ui;
+		margin-top: 100px;
+	}
+
+	.button {
+		padding: 5px;
+		color: white;
+		background-color: red;
+		border-radius: 5px;
+		border: 0.5px solid red;
+		cursor: pointer;
+	}
+	</style>
+</head>
+
+<body>
+	<div class="parent">
+		
+		<header>
+			<h1>Get Built Your AWS Infra</h1>
+		</header>
+		<div class="page1">
+			<form class="mainform" >
+				<h1>Fill The Form</h1>
+				<p>Choose Instance Type</p><select id="type" name="type" aria-placeholder="select">
+					<option value="t2.micro">t2.micro</option>
+					<option value="t2.small">t2.small</option>
+					<option value="t2.medium">t2.medium</option>
+					<option value="t2.large">t2.large</option>
+				</select>
+				<p>Choose Instance AMI Type</p><select id="ami_id" name="ami_id">
+					<option value="ami-07ffb2f4d65357b42">UBUNTU</option>
+					<option value="ami-08bd8e5c51334492e">WINDOW</option>
+					<option value="ami-074dc0a6f6c764218">Amazon AMI</option>
+				</select>
+				<p>Number Of reuired instances</p><select id="count" name="count">
+					<option value="1">1</option>
+					<option value="2">2</option>
+					<option value="3">3</option>
+					<option value="Auto_Scalling">Auto_scaling</option>
+				</select>
+				<p>Choose Instance Region</p><select id="region" name="region">
+					<option value="ap-south-1">ap-south-1_Asia Pacific (Mumbai)</option>
+					<option value="ap-south-2">ap-south-2_Asia Pacific (Hyderabad)</option>
+					<option value="us-east-1">us-east-1 US East (N. Virginia)</option>
+					<option value="eu-west-2">eu-west-2_Europe(London)</option>
+				</select>
+				<br><br><input type="submit" value="submit" class="button" onclick="submitform()">
+				<input type="reset" value="reset" class="button">
+			</form>
+		</div>
+	</div>
+	
+</body>
+
+</html>
+<script>
+// const axios = require('axios');
+
+function submitform() { 
+    console.log('afjlka')
+    let ami_id = document.getElementById('ami_id');
+    console.log(ami_id.value);
+    let type = document.getElementById('type');
+    console.log(type.value);
+    let count = document.getElementById('count');
+    console.log(count.value);
+    let region = document.getElementById('region');
+    console.log(region.value);
+    // alert("thank you");
+    // const request = {
+    //     pc,
+    //     type,
+    //     count,
+    //     region,
+    // };
+    const url = "http://10.10.10.50/create";
+
+    const data = {  "name": "snehal",
+                    "instance_type": type.value,
+                    "key_pair": "mumbaikey",
+					"ami_id": ami_id.value,
+                    "region": region.value
+                        };
+    const other_params = {
+        headers : { "content-type" : "application/json; charset=UTF-8"},
+        body : JSON.stringify(data),
+        method : "POST",
+       
+    };
+    
+    fetch(url, other_params)
+    .then(function(response) {
+    if (response.ok) {
+        return response.json();
+    } else {
+        throw new Error("Could not reach the API: " + response.statusText);
+    }
+}).then(function(data) {
+    document.getElementById("message").innerHTML = data.encoded;
+}).catch(function(error) {
+    document.getElementById("message").innerHTML = error.message;
+});
+// return true;
+
+};
+</script>
+
